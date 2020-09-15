@@ -1,0 +1,66 @@
+<div class="card card-chart">
+    <div class="card-body">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Cedula</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Valor Solicitado</th>
+                                <th scope="col">Estado Prestamo</th>
+                                <th scope="col">Pago Credito</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let solicitud of solicitudes">
+                                <td>{{solicitud.id}}</td>
+                                <td>{{solicitud.prestamo.nombre}}</td>
+                                <td>{{solicitud.prestamo.cedula}}</td>
+                                <td>{{solicitud.prestamo.correo}}</td>
+                                <td>{{solicitud.prestamo.valorSolicitado | currency}}</td>
+                                <td *ngIf="!solicitud.prestamo.estadoCredito"> Rechazado </td>
+                                <td *ngIf="solicitud.prestamo.estadoCredito"> Aprobado </td>
+                                <td *ngIf="!solicitud.prestamo.pagoCredito">NO</td>
+                                <td *ngIf="solicitud.prestamo.pagoCredito">SI</td>
+                                <td *ngIf="solicitud.prestamo.estadoCredito && !solicitud.prestamo.pagoCredito"><input type="button" value="Detalle pago" class="btn btn-primary" (click)="eventoDetalle(solicitud)"></td>
+                                <td *ngIf="solicitud.prestamo.estadoCredito && solicitud.prestamo.pagoCredito"><input type="button" value="Nueva Solicitud" class="btn btn-primary" routerLink="" (click)="eventoNuevaSolicitud(solicitud)"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #modalPago let-e="close">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            <div class="col-md-12">
+                <span>Pagar Prestamo</span>
+            </div>
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="e('Cerrar')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <div class="p-4">
+            <h4 class="card-title">Nombre: {{detalleSolicitud.prestamo.nombre}}</h4>
+            Cedula: {{detalleSolicitud.prestamo.cedula}}
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Pago Total: {{detalleSolicitud.prestamo.valorSolicitado | currency}} </h4>
+            <input type="button" value="pagar" class="btn btn-primary" (click)="eventoPagar(detalleSolicitud)">
+        </div>
+    </div>
+    <div class="modal-footer">
+        Fecha Pago : {{fechaActual | date}}
+    </div>
+</ng-template>
