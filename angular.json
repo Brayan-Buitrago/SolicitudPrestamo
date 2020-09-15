@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "SolicitdCredito": {
+        "ADL": {
             "projectType": "application",
             "schematics": {},
             "root": "",
