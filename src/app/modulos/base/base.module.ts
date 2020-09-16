@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BaseRoutingModule } from './base-routing.module';
-import { PerfilRoutingModule } from '../perfil/perfil-routing.module';
+import { PrestamoRoutingModule } from '../prestamo/prestamo-routing.module';
 
 
 
@@ -11,7 +11,7 @@ import { PerfilRoutingModule } from '../perfil/perfil-routing.module';
   imports: [
     CommonModule,
     BaseRoutingModule,
-    PerfilRoutingModule
+    PrestamoRoutingModule
   ]
 })
 export class BaseModule { }

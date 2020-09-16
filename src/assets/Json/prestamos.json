@@ -1,0 +1,27 @@
+{
+    "prestamos": [{
+            "prestamo": {
+                "nombre": "Brayan Buitrago",
+                "correo": "brayanb199o@gmail.com",
+                "cedula": "1013622929",
+                "valorSolicitado": 100000,
+                "fechaPagar": "",
+                "estadoCredito": true,
+                "pagoCredito": false
+            },
+            "id": 1
+        },
+        {
+            "prestamo": {
+                "nombre": "Adriana Garcia",
+                "correo": "adriana@gmail.com",
+                "cedula": "1023878165",
+                "valorSolicitado": 100000,
+                "fechaPagar": "",
+                "estadoCredito": false,
+                "pagoCredito": false
+            },
+            "id": 2
+        }
+    ]
+}

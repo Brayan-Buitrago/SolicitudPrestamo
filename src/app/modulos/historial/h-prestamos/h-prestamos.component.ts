@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JsonService } from 'src/app/servicios/Json/json.service';
-import { ConsolidadoService } from 'src/app/servicios/perfil/consolidado.service';
+import { ConsolidadoService } from 'src/app/servicios/prestamo/consolidado.service';
 
 @Component({
   selector: 'app-h-prestamos',
@@ -10,9 +10,12 @@ import { ConsolidadoService } from 'src/app/servicios/perfil/consolidado.service
 })
 export class HPrestamosComponent implements OnInit {
   @ViewChild('modalPago') modal: ElementRef;
+  @ViewChild('modalHistorial') modalHistorial: ElementRef;
   solicitudes = [];
   modaResul: any;
+  modaResulHistorial: any;
   detalleSolicitud: any;
+  histotalPrestamo = [];
   fechaActual: number = Date.now();
   constructor( public json: JsonService,
                public modalService: NgbModal,
@@ -50,5 +53,23 @@ export class HPrestamosComponent implements OnInit {
 
   eventoNuevaSolicitud(solicitud){
     this.consolidadoService.guardarNuevaSolicitud(solicitud, true);
+  }
+
+  eventoDetalleHistorial(cc){
+    this.histotalPrestamo = [];
+    this.solicitudes.map((obj) => {
+      if (obj.prestamo.cedula === cc) {
+        this.histotalPrestamo.push(obj);
+      }
+    });
+
+    this.modaResulHistorial = this.modalService.open(this.modalHistorial);
+    this.modaResulHistorial.result.then((result) => {
+      if (result === 'Cerrar') {
+        this.modaResulHistorial.close();
+      }
+    }, (reason) => {
+      this.modaResulHistorial.close();
+    });
   }
 }

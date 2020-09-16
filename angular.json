@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "ADL": {
+        "SolicitudCredito": {
             "projectType": "application",
             "schematics": {},
             "root": "",
@@ -13,7 +13,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/ADL",
+                        "outputPath": "dist/SolicitudCredito",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -64,18 +64,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "ADL:build"
+                        "browserTarget": "SolicitudCredito:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "ADL:build:production"
+                            "browserTarget": "SolicitudCredito:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "ADL:build"
+                        "browserTarget": "SolicitudCredito:build"
                     }
                 },
                 "test": {
@@ -113,18 +113,18 @@
                     "builder": "@angular-devkit/build-angular:protractor",
                     "options": {
                         "protractorConfig": "e2e/protractor.conf.js",
-                        "devServerTarget": "ADL:serve"
+                        "devServerTarget": "SolicitudCredito:serve"
                     },
                     "configurations": {
                         "production": {
-                            "devServerTarget": "ADL:serve:production"
+                            "devServerTarget": "SolicitudCredito:serve:production"
                         }
                     }
                 }
             }
         }
     },
-    "defaultProject": "ADL",
+    "defaultProject": "SolicitudCredito",
     "cli": {
         "analytics": "80884ea4-25ec-4dc7-a5c6-6e2e994551e0"
     }

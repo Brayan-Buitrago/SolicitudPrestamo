@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   base: 'http://localhost:3000',
-  capitalBase: 100000
+  capitalBase: 100000000
 };
 
 /*

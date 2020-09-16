@@ -3,7 +3,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <table class="table">
+                    <table class="table" *ngIf="solicitudes.length != 0">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Id</th>
@@ -11,13 +11,14 @@
                                 <th scope="col">Cedula</th>
                                 <th scope="col">Correo</th>
                                 <th scope="col">Valor Solicitado</th>
-                                <th scope="col">Estado Prestamo</th>
-                                <th scope="col">Pago Credito</th>
+                                <th scope="col">Estado Préstamo</th>
+                                <th scope="col">Pago Crédito</th>
+                                <th scope="col">Historial de Préstamos</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let solicitud of solicitudes">
+                            <tr *ngFor="let solicitud; of solicitudes">
                                 <td>{{solicitud.id}}</td>
                                 <td>{{solicitud.prestamo.nombre}}</td>
                                 <td>{{solicitud.prestamo.cedula}}</td>
@@ -27,6 +28,7 @@
                                 <td *ngIf="solicitud.prestamo.estadoCredito"> Aprobado </td>
                                 <td *ngIf="!solicitud.prestamo.pagoCredito">NO</td>
                                 <td *ngIf="solicitud.prestamo.pagoCredito">SI</td>
+                                <td><input type="button" value="ver Historial" class="btn btn-primary" (click)="eventoDetalleHistorial(solicitud.prestamo.cedula)"></td>
                                 <td *ngIf="solicitud.prestamo.estadoCredito && !solicitud.prestamo.pagoCredito"><input type="button" value="Detalle pago" class="btn btn-primary" (click)="eventoDetalle(solicitud)"></td>
                                 <td *ngIf="solicitud.prestamo.estadoCredito && solicitud.prestamo.pagoCredito"><input type="button" value="Nueva Solicitud" class="btn btn-primary" routerLink="" (click)="eventoNuevaSolicitud(solicitud)"></td>
                             </tr>
@@ -43,7 +45,7 @@
     <div class="modal-header">
         <h4 class="modal-title">
             <div class="col-md-12">
-                <span>Pagar Prestamo</span>
+                <span>Pagar Préstamo</span>
             </div>
         </h4>
         <button type="button" class="close" aria-label="Close" (click)="e('Cerrar')">
@@ -62,5 +64,43 @@
     </div>
     <div class="modal-footer">
         Fecha Pago : {{fechaActual | date}}
+    </div>
+</ng-template>
+
+
+<ng-template #modalHistorial let-e="close">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            <div class="col-md-12">
+                <span>Historial de solicitudes</span>
+            </div>
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="e('Cerrar')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Cedula</th>
+                    <th scope="col">Valor Solicitado</th>
+                    <th scope="col">Estado Préstamo</th>
+                    <th scope="col">Pago Crédito</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let solicitud; of histotalPrestamo">
+                    <td>{{solicitud.prestamo.nombre}}</td>
+                    <td>{{solicitud.prestamo.cedula}}</td>
+                    <td>{{solicitud.prestamo.valorSolicitado | currency}}</td>
+                    <td *ngIf="!solicitud.prestamo.estadoCredito"> Rechazado </td>
+                    <td *ngIf="solicitud.prestamo.estadoCredito"> Aprobado </td>
+                    <td *ngIf="!solicitud.prestamo.pagoCredito">NO</td>
+                    <td *ngIf="solicitud.prestamo.pagoCredito">SI</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </ng-template>

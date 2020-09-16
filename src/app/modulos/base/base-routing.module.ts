@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '', loadChildren: () => import('../perfil/perfil.module').then(m => m.PerfilModule),
+    path: '', loadChildren: () => import('../prestamo/prestamo.module').then(m => m.PrestamoModule),
   },
   {
     path: 'historial', loadChildren: () => import('../historial/historial.module').then(m => m.HistorialModule),
