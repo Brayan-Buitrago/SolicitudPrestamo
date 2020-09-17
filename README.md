@@ -5,7 +5,7 @@
 npm install
 
 # mocks
-cd solicitudCredito\src\assets\Json> json-server --watch prestamos.json
+cd SolicitudPrestamo\src\assets\Json> json-server --watch prestamos.json
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
 
