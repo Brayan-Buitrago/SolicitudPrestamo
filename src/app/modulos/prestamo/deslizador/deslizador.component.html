@@ -1,0 +1,9 @@
+<div class="container">
+    <div>
+        <span> Valor Min  {{valorMinimo | currency}} - Valor Max {{valorMaximo | currency}}  = {{valor | currency}}  </span>
+    </div>
+    <div class="mt-3">
+        <mat-slider thumbLabel (input)="valor= tomarValorSlider($event)" tickInterval="{{valorMaximo }}" min="{{valorMinimo}}" max="{{valorMaximo }}">
+        </mat-slider>
+    </div>
+</div>

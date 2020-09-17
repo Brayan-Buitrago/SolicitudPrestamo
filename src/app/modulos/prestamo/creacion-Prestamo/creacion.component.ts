@@ -1,13 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ConsolidadoService } from '../../../servicios/perfil/consolidado.service';
-import { TranslateService } from '@ngx-translate/core';
+import { ConsolidadoService } from '../../../servicios/prestamo/consolidado.service';
 import { map } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Globales } from '../../globales';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { JsonService } from 'src/app/servicios/Json/json.service';
-import { kMaxLength } from 'buffer';
-
 
 @Component({
   selector: 'app-creacion',
@@ -16,22 +12,19 @@ import { kMaxLength } from 'buffer';
 })
 export class CreacionComponent implements OnInit {
   datos: FormGroup;
-  @ViewChild('modalDetalle') modal: ElementRef;
+  @ViewChild('modal') modal: ElementRef;
 
+  modaResul: any;
   valorSolicitado: number;
   solicitudes = [];
   nuevaSolicitud = {};
 
-  globales: any;
   constructor(
     private consolidadoService: ConsolidadoService,
-    public translate: TranslateService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     public json: JsonService
-  ) {
-    translate.setDefaultLang('en');
-  }
+  ) {}
 
   ngOnInit() {
     this.consolidadoService.obtenerNuevaSolicitud().subscribe((data) => {
@@ -47,6 +40,24 @@ export class CreacionComponent implements OnInit {
     });
 
     this.validacionFormulario();
+    this.cargarDatosCreacion();
+  }
+
+  cargarDatosCreacion() {
+    if (this.nuevaSolicitud['datos']) {
+      this.datos.controls.inputNombre.setValue(
+        this.nuevaSolicitud['datos'].prestamo.nombre
+      );
+      this.datos.controls.inputCorreo.setValue(
+        this.nuevaSolicitud['datos'].prestamo.correo
+      );
+      this.datos.controls.inputCedula.setValue(
+        this.nuevaSolicitud['datos'].prestamo.cedula
+      );
+      this.datos.controls.inputDate.setValue(
+        this.nuevaSolicitud['datos'].prestamo.fechaPagar
+      );
+    }
   }
 
   validacionFormulario() {
@@ -81,7 +92,6 @@ export class CreacionComponent implements OnInit {
   }
 
   enviarCreacion(datos) {
-    this.calcularMontoBase();
     const objSatos = {
       nombre: datos.value.inputNombre,
       correo: datos.value.inputCorreo,
@@ -95,21 +105,28 @@ export class CreacionComponent implements OnInit {
     const permitirSolicitud = this.evaluarSolicitud(datos.value.inputCedula);
     if (permitirSolicitud) {
       this.json.agragrPrestamo(objSatos);
+      this.nuevaSolicitud = {};
     } else {
-      alert('no pueden volver a solicitar créditos.');
+      this.modaResul = this.modalService.open(this.modal);
+      this.modaResul.result.then(
+        (result) => {
+          if (result === 'Cerrar') {
+            this.modaResul.close();
+          }
+        },
+        (reason) => {
+          this.modaResul.close();
+        }
+      );
     }
   }
 
-  calcularMontoBase() {
-    let montoBase = 0;
-    this.consolidadoService.obtenerBase().subscribe((data) => {
-      montoBase = data;
-    });
-    this.consolidadoService.guardarBase(montoBase - this.valorSolicitado);
-  }
-
   evaluarEstadoCredito() {
-    return Math.random() >= 0.9;
+    if (this.nuevaSolicitud['datos']) {
+      return true;
+    } else {
+      return Math.random() >= 0.9;
+    }
   }
 
   evaluarSolicitud(cc) {
@@ -119,7 +136,6 @@ export class CreacionComponent implements OnInit {
         objEncontrado = false;
       }
     });
-
     return objEncontrado;
   }
 }

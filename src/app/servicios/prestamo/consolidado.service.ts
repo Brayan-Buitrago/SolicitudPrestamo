@@ -8,6 +8,7 @@ export class ConsolidadoService {
   private valorPrestamo = new ReplaySubject<any>();
   private base = new ReplaySubject<any>();
   private nuevaSolicitud = new BehaviorSubject<any>({});
+  private cargandoSolicitud = new BehaviorSubject<boolean>(false);
 
   constructor() {}
 
